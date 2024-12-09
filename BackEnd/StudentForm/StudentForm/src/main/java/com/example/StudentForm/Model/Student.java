@@ -16,10 +16,7 @@ public class Student {
     private String gender;
     private byte[] profilePhoto;
 
-    private String userName;
-    private String password;
-
-    public Student(String studentId, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto, String userName, String password){
+    public Student(String studentId, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto){
         this.studentId = studentId;
         this.studentName = studentName;
         this.age = age;
@@ -27,8 +24,6 @@ public class Student {
         this.contactNumber = contactNumber;
         this.gender = gender;
         this.profilePhoto = profilePhoto;
-        this.userName = userName;
-        this.password = password;
     }
 
     public Student(){
@@ -37,10 +32,6 @@ public class Student {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
     }
 
     public String getStudentId(){
@@ -71,7 +62,7 @@ public class Student {
         this.address = address;
     }
 
-    public String getcontactNumber(){
+    public String getContactNumber(){
         return contactNumber;
     }
 
@@ -93,22 +84,6 @@ public class Student {
 
     public void setProfilePhoto(byte[] profilePhoto){
         this.profilePhoto = profilePhoto;
-    }
-
-    public String getUserName(){
-        return userName;
-    }
-
-    public void setUserName(String userName){
-        this.userName = userName;
-    }
-
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword(String password){
-        this.password = password;
     }
 
 }
