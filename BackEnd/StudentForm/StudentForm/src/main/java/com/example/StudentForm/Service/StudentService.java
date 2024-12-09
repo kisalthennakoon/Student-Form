@@ -13,8 +13,8 @@ public class StudentService {
     @Autowired
     private StudentRepo repo;
 
-    public void saveorUpdate(Student students) {
-        repo.save(students);
+    public Student saveOrUpdate(Student student) {
+        return repo.save(student); // Save method handles both insert and update
     }
 
     public Iterable<Student> listAll() {

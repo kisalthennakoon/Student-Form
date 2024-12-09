@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Student {
 
     @Id
-    private String studentId;
+    private String studentId;    
+
     private String studentName;
     private int age;
     private String address;
@@ -32,6 +33,14 @@ public class Student {
 
     public Student(){
 
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
     }
 
     public String getStudentId(){
@@ -102,3 +111,4 @@ public class Student {
         this.password = password;
     }
 
+}

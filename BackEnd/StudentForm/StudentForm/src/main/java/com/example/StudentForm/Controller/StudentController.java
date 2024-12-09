@@ -4,7 +4,6 @@ package com.example.StudentForm.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.StudentForm.Model.Student;
 import com.example.StudentForm.Service.StudentService;
@@ -21,7 +20,7 @@ public class StudentController {
 
     @PostMapping(value="/signUp")
     public ResponseEntity<Student> signUp(@RequestBody Student student){
-        return ResponseEntity.ok(service.saveorUpdate(student));
+        return ResponseEntity.ok(service.saveOrUpdate(student));
 
     }
 
@@ -30,10 +29,13 @@ public class StudentController {
                             @RequestBody Student student,
                             @PathVariable(name = "id")String _id) 
     {
-        student.set_id(_id);
-        return ResponseEntity.ok(service.saveorUpdate(student));
+        student.setStudentId(_id);
+        Student updatedStudent = service.saveOrUpdate(student);
+
+        // Return the updated student wrapped in ResponseEntity
+        return ResponseEntity.ok(updatedStudent);
     }
-    
+
     @GetMapping("/getAll")
     public ResponseEntity<Iterable<Student>> getAllStudents() {
         return ResponseEntity.ok(service.listAll());
