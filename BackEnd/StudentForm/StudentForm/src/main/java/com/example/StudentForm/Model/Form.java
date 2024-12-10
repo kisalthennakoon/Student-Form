@@ -3,9 +3,6 @@ package com.example.StudentForm.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Pattern;
-
 @Document(collection = "Forms")
 public class Form {
 
@@ -13,18 +10,10 @@ public class Form {
     private String id;    
 
     private String studentName;
-
-    @Min(1)
     private int age;
-    
     private String address;
-
-    @Pattern(regexp = "\\d{10}")
     private String contactNumber;
-
-    @Pattern(regexp = "Male | Female")
     private String gender;
-
     private byte[] profilePhoto;
 
     public Form(String id, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto){
