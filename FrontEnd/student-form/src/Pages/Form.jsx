@@ -43,7 +43,7 @@ const StudentRegistrationForm = () => {
       justifyContent="center"
       alignItems="center"
       minHeight="100vh" // Full screen height
-      width="100%" // Full screen width
+      width="100vw" // Full screen width
       sx={{ backgroundColor: "#E4EDEC" }}
     >
       <Paper elevation={3} sx={{ padding: 4, width: "30%" }}>
