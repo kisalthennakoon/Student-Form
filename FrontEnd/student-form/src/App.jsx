@@ -1,17 +1,15 @@
 
-import Home from '../src/Pages/Home.jsx'
+//import Home from "../src/Pages/Home.jsx";
+import Form from "../src/Pages/Form.jsx";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
-   <div>
-      {/* <Header/> */}
-      <Home/>
-   </div>
-      
-  
-  )
+    <div>
+      {/* <Home /> */}
+
+      <Form />
+    </div>
+  );
 }
 
-export default App
+export default App;
