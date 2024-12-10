@@ -5,5 +5,5 @@ import com.example.StudentForm.Model.Account;
 
 
 public interface AccountRepo extends MongoRepository<Account, String>{
-
+    Account findByUserName(String userName);
 }

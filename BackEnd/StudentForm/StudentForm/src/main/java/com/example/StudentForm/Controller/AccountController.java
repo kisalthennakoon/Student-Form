@@ -7,6 +7,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,26 @@ public class AccountController {
     public String saveAcc(@RequestBody Account acc) {
         accService.saveOrUpdate(acc);
         return acc.getId();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
+        // Retrieve user by username
+        Account user = accService.findByUsername(loginRequest.getUserName());
+
+        if (user == null) {
+            // User not found
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+
+        // Validate password
+        if (!user.getPassword().equals(loginRequest.getPassword())) {
+            // Incorrect password
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+
+        // Login successful
+        return ResponseEntity.ok("Login successful");
     }
 
     // Get all acc by id
