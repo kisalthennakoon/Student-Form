@@ -1,13 +1,20 @@
 // import React from 'react';
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa'; // Import required icons
 
 const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer-content">
                 <div className="social-links">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link">Facebook</a>
-                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link">LinkedIn</a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-link">
+                        <FaFacebook /> Facebook
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-link">
+                        <FaInstagram /> Instagram
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-link">
+                        <FaLinkedin /> LinkedIn
+                    </a>
                 </div>
                 <p className="copyright">&copy; 2024 All rights reserved.</p>
             </div>
@@ -45,17 +52,14 @@ const Footer = () => {
     font-size: 1rem;
     font-weight: 500;
     transition: color 0.3s ease-in-out;
-    background: none; /* Remove background color */
-    outline: none; /* Remove focus outline */
+    display: flex; /* Align icon and text */
+    align-items: center; /* Center-align icon and text */
+    gap: 8px; /* Spacing between icon and text */
   }
 
   .social-link:hover {
     text-decoration: underline;
     color: #ffffff;
-  }
-
-  .social-link:focus {
-    outline: none; /* Prevent blue focus highlight */
   }
 
   .copyright {

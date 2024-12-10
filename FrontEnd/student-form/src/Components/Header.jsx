@@ -1,20 +1,29 @@
 // import React from 'react';
+import { FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
 
 const Header = () => {
     return (
-      <div>
-        <nav className="navbar">
-          <div className="navbar-logo">
-            <h1>Technology Institute</h1>
-          </div>
-          <ul className="navbar-links">
-            <li><a href="home">Home</a></li>
-            <li><a href="register">Student Register </a></li>
-            <li><a href="sign-in">Sign In</a></li>
-            <li><a href="sign-up">Sign Up</a></li>
-          </ul>
-        </nav>
-        <style>{`
+        <div>
+            <nav className="navbar">
+                <div className="navbar-logo">
+                    <h1>Technology Institute</h1>
+                </div>
+                <ul className="navbar-links">
+                    <li><a href="home">Home</a></li>
+                    <li><a href="register">Student Register</a></li>
+                    <li>
+                        <a href="sign-in">
+                            <FaSignInAlt /> Sign In
+                        </a>
+                    </li>
+                    <li>
+                        <a href="sign-up">
+                            <FaUserPlus /> Sign Up
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <style>{`
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
   .navbar {
@@ -60,6 +69,9 @@ const Header = () => {
     font-size: 1rem; /* Consistent font size */
     font-weight: 500;
     transition: color 0.3s ease-in-out;
+    display: flex;
+    align-items: center; /* Align icons and text */
+    gap: 8px; /* Spacing between icon and text */
   }
 
   .navbar-links li a:hover {
@@ -84,10 +96,8 @@ const Header = () => {
     }
   }
 `}</style>
-
-
-      </div>
+        </div>
     );
-  };
+};
 
 export default Header;
