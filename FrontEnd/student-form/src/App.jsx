@@ -1,14 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import '../src/Pages/Home.jsx'
+
+import Home from '../src/Pages/Home.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
    <div>
+      {/* <Header/> */}
       <Home/>
    </div>
       
