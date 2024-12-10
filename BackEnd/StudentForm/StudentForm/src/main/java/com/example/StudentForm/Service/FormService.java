@@ -3,18 +3,20 @@ package com.example.StudentForm.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.StudentForm.Model.Student;
+import com.example.StudentForm.Model.Form;
+// import com.example.StudentForm.Repository.AccountRepo;
 import com.example.StudentForm.Repository.FormRepo;
 
 @Service
 public class FormService {
 
+    @Autowired
     private FormRepo formRepo;
 
-    @Autowired
-    private AccRepo accRepo;
+    // @Autowired
+    // private AccountRepo accRepo;
 
-    public Form saveorUpdate(Form form) {
+    public Form saveOrUpdate(Form form) {
         return formRepo.save(form);
     }
 

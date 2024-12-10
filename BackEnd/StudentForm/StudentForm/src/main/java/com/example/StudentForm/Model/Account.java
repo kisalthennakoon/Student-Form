@@ -1,32 +1,33 @@
 package com.example.StudentForm.Model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+// import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@Document(collection = "Users")
+@Document(collection = "Accounts")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAccount {
+public class Account {
     
     @Id
-    private String studentId;
+    private String id;
 
     private String userName;
     private String password;
 
-    @DBRef
-    private Form student;
+    @DocumentReference
+    private Form form;
 
-    public String getStudentId() {
-        return studentId;
+    public String getId() {
+        return id;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -45,12 +46,12 @@ public class UserAccount {
         this.password = password;
     }
 
-    public Form getStudent() {
-        return student;
+    public Form getForm() {
+        return form;
     }
 
-    public void setStudent(Form student) {
-        this.student = student;
+    public void setForm(Form form) {
+        this.form = form;
     }
    
 }

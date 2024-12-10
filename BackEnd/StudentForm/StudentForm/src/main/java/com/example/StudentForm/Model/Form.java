@@ -3,11 +3,11 @@ package com.example.StudentForm.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "students")
+@Document(collection = "Forms")
 public class Form {
 
     @Id
-    private String studentId;    
+    private String id;    
 
     private String studentName;
     private int age;
@@ -16,8 +16,8 @@ public class Form {
     private String gender;
     private byte[] profilePhoto;
 
-    public Form(String studentId, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto){
-        this.studentId = studentId;
+    public Form(String id, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto){
+        this.id = id;
         this.studentName = studentName;
         this.age = age;
         this.address = address;
@@ -30,12 +30,12 @@ public class Form {
 
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getStudentId(){
-        return studentId;
+    public String getId(){
+        return id;
     }
 
     public String getStudentName(){
