@@ -61,7 +61,7 @@ const styles = {
   container: {
     display: "flex",
     height: "100vh",
-    width: "100%",// Full screen width
+    width: "100vw",// Full screen width
     overflow: "hidden", 
     margin : "0",
     padding : "0",

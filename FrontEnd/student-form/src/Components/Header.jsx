@@ -1,5 +1,5 @@
 // import React from 'react';
-import { FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
+import { FaSignInAlt, FaUserPlus } from 'react-icons/fa'; 
 
 const Header = () => {
     return (
