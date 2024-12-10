@@ -1,3 +1,4 @@
+
 import Header from './Components/Header.jsx'
 import Footer from './Components/Footer.jsx'
 
@@ -16,6 +17,7 @@ function App() {
       
   
   )
+
 }
 
-export default App
+export default App;
