@@ -22,6 +22,7 @@ const Footer = () => {
   .footer {
     background-color: #4a87a7; /* Same as navbar for consistency */
     color: #ffffff;
+    // overflow: "hidden", 
     padding: 20px 0;
     text-align: center;
     position: fixed;
@@ -33,7 +34,6 @@ const Footer = () => {
   }
 
   .footer-content {
-    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

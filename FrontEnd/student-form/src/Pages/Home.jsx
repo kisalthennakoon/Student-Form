@@ -61,7 +61,10 @@ const styles = {
   container: {
     display: "flex",
     height: "100vh",
-    width: "100vw",
+    width: "100%",// Full screen width
+    overflow: "hidden", 
+    margin : "0",
+    padding : "0",
   },
   backgroundSection: {
     width: "70vw",
@@ -108,6 +111,7 @@ const styles = {
     cursor: "pointer",
     transition: "all 0.3s",
   },
+
 };
 
 export default Home;
