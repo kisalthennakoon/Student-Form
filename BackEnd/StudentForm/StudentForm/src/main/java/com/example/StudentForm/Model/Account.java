@@ -4,7 +4,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Document(collection = "Users")
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAccount {
     
     @Id
@@ -14,18 +19,7 @@ public class UserAccount {
     private String password;
 
     @DBRef
-    private Student student;
-
-    public UserAccount(String studentId, String userName, String password, Student student) {
-        this.studentId = studentId;
-        this.userName = userName;
-        this.password = password;
-        this.student = student;
-    }
-
-    public UserAccount(){
-
-    }
+    private Form student;
 
     public String getStudentId() {
         return studentId;
@@ -51,11 +45,11 @@ public class UserAccount {
         this.password = password;
     }
 
-    public Student getStudent() {
+    public Form getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(Form student) {
         this.student = student;
     }
    
