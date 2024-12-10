@@ -1,15 +1,23 @@
 
-import Home from "../src/Pages/Home.jsx";
-import Form from "../src/Pages/Form.jsx";
+import Header from './Components/Header.jsx'
+import Footer from './Components/Footer.jsx'
+
+import './App.css'
+import '../src/Pages/Home.jsx'
+
 
 function App() {
+  
   return (
-    <div>
-      <Home />
+   <div>
+    <Header/> 
+    <Footer/>
+   
+   </div>
+      
+  
+  )
 
-      <Form />
-    </div>
-  );
 }
 
 export default App;

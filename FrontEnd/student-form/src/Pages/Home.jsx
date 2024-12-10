@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import background from "../assets/background.svg";
 import AuthPopup from "../PopUps/Signup";
@@ -110,3 +111,4 @@ const styles = {
 };
 
 export default Home;
+
