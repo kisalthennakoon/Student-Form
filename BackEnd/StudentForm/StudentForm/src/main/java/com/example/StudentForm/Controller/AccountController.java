@@ -5,7 +5,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,8 @@ import com.example.StudentForm.Model.Form;
 import com.example.StudentForm.Service.AccountService;
 import com.example.StudentForm.Service.FormService;
 
-import com.example.StudentForm.JwT.JwtUtil;
-import com.example.StudentForm.JwT.LoginResponse;
+//import com.example.StudentForm.JwT.JwtUtil;
+//import com.example.StudentForm.JwT.LoginResponse;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -32,33 +31,49 @@ public class AccountController {
     @Autowired
     private FormService formService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    // @Autowired
+    // private JwtUtil jwtUtil;
 
     // Acc controllers
 
     // Saving Account
     @PostMapping(value = "/saveAcc")
     public ResponseEntity<?> saveAcc(@RequestBody Account acc) {
-        Account account = accService.findByUsername(acc.getUserName());
-        if(!account.getUserName().equals(acc.getUserName())){
+        Account existingAccount = accService.findByUsername(acc.getUserName());
+        if (existingAccount != null) {
             return ResponseEntity.status(401).body("Username not available");
         }
         return ResponseEntity.ok(accService.saveOrUpdate(acc));
     }
 
+    // @PostMapping("/loginval")
+    // public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
+    // System.out.println("Login request received for user: " +
+    // loginRequest.getUserName());
+    // Account account = accService.findByUsername(loginRequest.getUserName());
+
+    // if (account == null ||
+    // !account.getPassword().equals(loginRequest.getPassword())) {
+    // return ResponseEntity.status(401).body("Invalid username or password");
+    // }
+
+    // String token = jwtUtil.generateToken(account.getUserName());
+    // return ResponseEntity.ok(new LoginResponse(token));
+    // }
+
     @PostMapping("/login")
     public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
         Account account = accService.findByUsername(loginRequest.getUserName());
-        
-        if (account == null || !account.getPassword().equals(loginRequest.getPassword())) {
+
+        if (account == null ||
+                !account.getPassword().equals(loginRequest.getPassword())) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
 
-        String token = jwtUtil.generateToken(account.getUserName());
-        return ResponseEntity.ok(new LoginResponse(token));
+        // String token = jwtUtil.generateToken(account.getUserName());
+        return (ResponseEntity<?>) ResponseEntity.ok().body("Successfull");
     }
-    
+
     // Get all acc by id
     @GetMapping("/getAll")
     public ResponseEntity<Iterable<Account>> getAllAcc() {
@@ -80,35 +95,37 @@ public class AccountController {
 
     // Form controllers for a acc
 
-    //Assigning the form
+    // Assigning the form
 
-    /* 
-    @PutMapping(value = "/{studentId}/assignForm")
-    public Account assignForm(@PathVariable String studentId, @RequestBody Form form) {
-        // Save the StudentAcc document first
-        Form savedForm = formService.saveOrUpdate(form);
+    /*
+     * @PutMapping(value = "/{studentId}/assignForm")
+     * public Account assignForm(@PathVariable String studentId, @RequestBody Form
+     * form) {
+     * // Save the StudentAcc document first
+     * Form savedForm = formService.saveOrUpdate(form);
+     * 
+     * // Retrieve the Student document
+     * Account studentAcc = accService.getAccByID(studentId);
+     * if (studentAcc == null) {
+     * throw new RuntimeException("Student not found with ID: " + studentId); }
+     * 
+     * // Link the account to the student
+     * studentAcc.setForm(savedForm);
+     * // Save the updated student
+     * return accService.saveOrUpdate(studentAcc);
+     * }
+     */
 
-        // Retrieve the Student document
-        Account studentAcc = accService.getAccByID(studentId);
-        if (studentAcc == null) {
-        throw new RuntimeException("Student not found with ID: " + studentId); }
-
-        // Link the account to the student
-        studentAcc.setForm(savedForm);
-        // Save the updated student
-        return accService.saveOrUpdate(studentAcc);
-    }*/
-
-    //-----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------
     @PutMapping(value = "/{id}/assignForm", consumes = "multipart/form-data")
     public ResponseEntity<Account> assignForm(
-                                    @PathVariable String id,
-                                    @RequestParam("name") String studentName,
-                                    @RequestParam("address") String address,
-                                    @RequestParam("age") int age,
-                                    @RequestParam("mobile") String contactNumber,
-                                    @RequestParam("gender") String gender,
-                                    @RequestParam("photo") MultipartFile profilePhoto) {
+            @PathVariable String id,
+            @RequestParam("name") String studentName,
+            @RequestParam("address") String address,
+            @RequestParam("age") int age,
+            @RequestParam("mobile") String contactNumber,
+            @RequestParam("gender") String gender,
+            @RequestParam("photo") MultipartFile profilePhoto) {
 
         // Create a new Form object and populate fields
         Form form = new Form();
@@ -119,21 +136,21 @@ public class AccountController {
         form.setGender(gender);
 
         // Handle the profile photo file
-        if (profilePhoto != null){
-            try {
-                if (!profilePhoto.isEmpty()) {
-                    // Validate file type
-                    String contentType = profilePhoto.getContentType();
-                    if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
-                        return ResponseEntity.badRequest().body(null); // Invalid file type
-                    }
 
-                    form.setProfilePhoto(profilePhoto.getBytes()); // Save photo as a byte array
+        try {
+            if (!profilePhoto.isEmpty()) {
+                // Validate file type
+                String contentType = profilePhoto.getContentType();
+                if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+                    return ResponseEntity.badRequest().body(null); // Invalid file type
                 }
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to process file: " + e.getMessage(), e);
+
+                form.setProfilePhoto(profilePhoto.getBytes()); // Save photo as a byte array
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to process file: " + e.getMessage(), e);
         }
+
         // Save the Form document
         Form savedForm = formService.saveOrUpdate(form);
 
@@ -150,36 +167,34 @@ public class AccountController {
         return ResponseEntity.ok(updatedAccount);
     }
 
-
-
-
-    //-----------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------
 
     // Getting the form of a student
 
     /*
-    @GetMapping("/{id}/form")
-    public ResponseEntity<?> getStudentForm(@PathVariable String id) {
-        // Retrieve the Student document by ID
-        Account studentAcc = accService.getAccByID(id);
-
-        if (studentAcc == null) {
-            return ResponseEntity.status(404).body("Student not found with ID: " + id);
-        }
-        // Retrieve the associated account (acc)
-        Form form = studentAcc.getForm();
-
-        if (form == null) {
-            return ResponseEntity.status(404).body("Account not found for Student ID: " + id);
-        }
-        // Create a response object
-        Map<String, Object> response = new HashMap<>();
-        // response.put("student", student);
-        response.put("form", form);
-
-        return ResponseEntity.ok(response);
-    }
-    */
+     * @GetMapping("/{id}/form")
+     * public ResponseEntity<?> getStudentForm(@PathVariable String id) {
+     * // Retrieve the Student document by ID
+     * Account studentAcc = accService.getAccByID(id);
+     * 
+     * if (studentAcc == null) {
+     * return ResponseEntity.status(404).body("Student not found with ID: " + id);
+     * }
+     * // Retrieve the associated account (acc)
+     * Form form = studentAcc.getForm();
+     * 
+     * if (form == null) {
+     * return ResponseEntity.status(404).body("Account not found for Student ID: " +
+     * id);
+     * }
+     * // Create a response object
+     * Map<String, Object> response = new HashMap<>();
+     * // response.put("student", student);
+     * response.put("form", form);
+     * 
+     * return ResponseEntity.ok(response);
+     * }
+     */
 
     @GetMapping("/{id}/form")
     public ResponseEntity<?> getStudentForm(@PathVariable String id) {
@@ -199,7 +214,7 @@ public class AccountController {
 
         // Create a response object
         Map<String, Object> response = new HashMap<>();
-        
+
         // Add form data to response
         response.put("studentName", form.getStudentName());
         response.put("address", form.getAddress());
@@ -212,23 +227,23 @@ public class AccountController {
             String base64Photo = Base64.getEncoder().encodeToString(form.getProfilePhoto());
             response.put("profilePhoto", base64Photo);
         } else {
-            response.put("profilePhoto", null);  // If no photo is available
+            response.put("profilePhoto", null); // If no photo is available
         }
 
         return ResponseEntity.ok(response);
     }
 
-    //edit form
+    // edit form
 
     @PutMapping(value = "/{id}/editForm")
     public ResponseEntity<Form> editForm(
-                                    @PathVariable String id,
-                                    @RequestParam("name") String studentName,
-                                    @RequestParam("address") String address,
-                                    @RequestParam("age") int age,
-                                    @RequestParam("mobile") String contactNumber,
-                                    @RequestParam("gender") String gender,
-                                    @RequestParam("photo") MultipartFile profilePhoto)  {
+            @PathVariable String id,
+            @RequestParam("name") String studentName,
+            @RequestParam("address") String address,
+            @RequestParam("age") int age,
+            @RequestParam("mobile") String contactNumber,
+            @RequestParam("gender") String gender,
+            @RequestParam("photo") MultipartFile profilePhoto) {
 
         Account studentAcc = accService.getAccByID(id);
         Form form = new Form();
@@ -243,7 +258,7 @@ public class AccountController {
         form.setGender(gender);
 
         // Handle the profile photo file
-        if (profilePhoto != null){
+        if (profilePhoto != null) {
             try {
                 if (!profilePhoto.isEmpty()) {
                     // Validate file type
@@ -261,10 +276,8 @@ public class AccountController {
         // Save the Form document
         Form savedForm = formService.saveOrUpdate(form);
 
-        
         return ResponseEntity.ok(savedForm);
     }
-
 
     @DeleteMapping("/{id}/deleteForm")
     public ResponseEntity<Void> deleteForm(@PathVariable String id) {
