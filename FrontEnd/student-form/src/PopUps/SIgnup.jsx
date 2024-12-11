@@ -14,7 +14,6 @@ const AuthPopup = ({ open, onClose }) => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Sign In
   const [formData, setFormData] = useState({
     username: "",
-    studentId: "",
     password: "",
     confirmPassword: "",
   });
@@ -30,7 +29,6 @@ const AuthPopup = ({ open, onClose }) => {
     const newErrors = {};
     if (isSignUp) {
       if (!formData.username) newErrors.username = "Username is required";
-      if (!formData.studentId) newErrors.studentId = "Student ID is required";
       if (!formData.password) newErrors.password = "Password is required";
       if (formData.password !== formData.confirmPassword) {
         newErrors.confirmPassword = "Passwords do not match";
@@ -73,20 +71,6 @@ const AuthPopup = ({ open, onClose }) => {
             helperText={errors.username}
             required
           />
-          {/* Student ID Field - Only for Sign Up */}
-          {isSignUp && (
-            <TextField
-              fullWidth
-              label="Student ID"
-              name="studentId"
-              value={formData.studentId}
-              onChange={handleChange}
-              margin="normal"
-              error={!!errors.studentId}
-              helperText={errors.studentId}
-              required
-            />
-          )}
           {/* Password Field */}
           <TextField
             fullWidth
