@@ -12,6 +12,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import axios from "axios";
 
 const AuthPopup = ({ open, onClose }) => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Sign In
@@ -53,13 +54,33 @@ const AuthPopup = ({ open, onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
       if (isSignUp) {
-        alert("Signup successful!");
+        try {
+          const response = await axios.post("http://localhost:8080/api/v1/acc/saveAcc", {
+            userName: formData.username,
+            password: formData.password,
+          });
+          alert("Signup successful!\n" + response.data.message);
+          console.log("Signup Response:", response.data);
+        } catch (error) {
+          console.error("Signup Error:", error);
+          alert("Failed to sign up. Please try again.");
+        }
       } else {
-        alert("Signin successful!");
+        try {
+          const response = await axios.post("http://localhost:8080/api/v1/acc/login", {
+            userName: formData.username,
+            password: formData.password,
+          });
+          alert("Signin successful!\n" + response.data.message);
+          console.log("Signin Response:", response.data);
+        } catch (error) {
+          console.error("Signin Error:", error);
+          alert("Failed to sign in. Please try again.");
+        }
       }
       console.log("Form Data:", formData);
       onClose();
