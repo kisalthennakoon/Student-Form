@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +16,9 @@ import com.example.StudentForm.Model.Account;
 import com.example.StudentForm.Model.Form;
 import com.example.StudentForm.Service.AccountService;
 import com.example.StudentForm.Service.FormService;
+
+import com.example.StudentForm.JwT.JwtUtil;
+import com.example.StudentForm.JwT.LoginResponse;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,35 +32,33 @@ public class AccountController {
     @Autowired
     private FormService formService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     // Acc controllers
 
     // Saving Account
     @PostMapping(value = "/saveAcc")
-    public String saveAcc(@RequestBody Account acc) {
-        accService.saveOrUpdate(acc);
-        return acc.getId();
+    public ResponseEntity<?> saveAcc(@RequestBody Account acc) {
+        Account account = accService.findByUsername(acc.getUserName());
+        if(!account.getUserName().equals(acc.getUserName())){
+            return ResponseEntity.status(401).body("Username not available");
+        }
+        return ResponseEntity.ok(accService.saveOrUpdate(acc));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
-        // Retrieve user by username
-        Account user = accService.findByUsername(loginRequest.getUserName());
-
-        if (user == null) {
-            // User not found
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        Account account = accService.findByUsername(loginRequest.getUserName());
+        
+        if (account == null || !account.getPassword().equals(loginRequest.getPassword())) {
+            return ResponseEntity.status(401).body("Invalid username or password");
         }
 
-        // Validate password
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
-            // Incorrect password
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
-
-        // Login successful
-        return ResponseEntity.ok("Login successful");
+        String token = jwtUtil.generateToken(account.getUserName());
+        return ResponseEntity.ok(new LoginResponse(token));
     }
-
+    
     // Get all acc by id
     @GetMapping("/getAll")
     public ResponseEntity<Iterable<Account>> getAllAcc() {
