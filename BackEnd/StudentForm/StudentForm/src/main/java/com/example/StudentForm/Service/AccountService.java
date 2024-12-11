@@ -30,5 +30,9 @@ public class AccountService {
         return repo.findById(studentid).get();
     }
 
+    public Account findByUsername(String userName) {
+        return repo.findByUserName(userName);
+    }
+
     
 }
