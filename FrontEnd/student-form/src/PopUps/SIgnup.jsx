@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   TextField,
@@ -8,7 +8,10 @@ import {
   DialogContent,
   DialogTitle,
   DialogActions,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const AuthPopup = ({ open, onClose }) => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Sign In
@@ -17,12 +20,21 @@ const AuthPopup = ({ open, onClose }) => {
     password: "",
     confirmPassword: "",
   });
-
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
   };
 
   const validate = () => {
@@ -76,13 +88,22 @@ const AuthPopup = ({ open, onClose }) => {
             fullWidth
             label="Password"
             name="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={formData.password}
             onChange={handleChange}
             margin="normal"
             error={!!errors.password}
             helperText={errors.password}
             required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={togglePasswordVisibility} edge="end">
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           {/* Confirm Password Field - Only for Sign Up */}
           {isSignUp && (
@@ -90,13 +111,22 @@ const AuthPopup = ({ open, onClose }) => {
               fullWidth
               label="Confirm Password"
               name="confirmPassword"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               value={formData.confirmPassword}
               onChange={handleChange}
               margin="normal"
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword}
               required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={toggleConfirmPasswordVisibility} edge="end">
+                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           )}
           {/* Submit Button */}
@@ -119,7 +149,7 @@ const AuthPopup = ({ open, onClose }) => {
               {isSignUp ? "Sign In" : "Sign Up"}
             </Button>
           </Typography>
-          <Button onClick={onClose} color="red">
+          <Button onClick={onClose} color="secondary">
             Cancel
           </Button>
         </Box>
