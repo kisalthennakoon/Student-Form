@@ -22,7 +22,6 @@ const StudentRegistrationForm = ({ id }) => {
     address: "",
     contactNo: "",
     gender: "",
-    photo: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -152,7 +151,7 @@ const StudentRegistrationForm = ({ id }) => {
               />
             </RadioGroup>
           </FormControl>
-          <Button
+          {/* <Button
             variant="contained"
             component="label"
             sx={{ marginTop: 2, marginBottom: 3 }}
@@ -165,7 +164,7 @@ const StudentRegistrationForm = ({ id }) => {
               hidden
               onChange={handleChange}
             />
-          </Button>
+          </Button> */}
           <Button
             type="submit"
             variant="contained"
