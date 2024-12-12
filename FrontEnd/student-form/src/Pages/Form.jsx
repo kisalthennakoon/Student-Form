@@ -11,6 +11,7 @@ import {
   FormLabel,
   Paper,
 } from "@mui/material";
+import axios from "axios";
 
 const StudentRegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,8 @@ const StudentRegistrationForm = () => {
     photo: null,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     setFormData({
@@ -31,10 +34,36 @@ const StudentRegistrationForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Form submitted successfully! 🎉");
-    console.log("Form Data:", formData);
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `http://localhost:8080/api/v1/acc/${id}/assignForm`, // Corrected URL
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      alert("Form submitted successfully! 🎉");
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error.response || error.message);
+      alert(
+        `Failed to submit the form. ${
+          error.response?.data?.message || "Please try again."
+        }`
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,8 +71,8 @@ const StudentRegistrationForm = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh" // Full screen height
-      width="100vw" // Full screen width
+      minHeight="100vh"
+      width="100vw"
       sx={{ backgroundColor: "#E4EDEC" }}
     >
       <Paper elevation={3} sx={{ padding: 4, width: "30%" }}>
@@ -51,7 +80,6 @@ const StudentRegistrationForm = () => {
           Student Registration Form
         </Typography>
         <form onSubmit={handleSubmit}>
-          {/* Name */}
           <TextField
             fullWidth
             label="Name"
@@ -61,8 +89,6 @@ const StudentRegistrationForm = () => {
             margin="normal"
             required
           />
-
-          {/* Student ID and Age */}
           <Box display="flex" gap={2} marginBottom={2}>
             <TextField
               fullWidth
@@ -82,8 +108,6 @@ const StudentRegistrationForm = () => {
               required
             />
           </Box>
-
-          {/* Address */}
           <TextField
             fullWidth
             label="Address"
@@ -95,8 +119,6 @@ const StudentRegistrationForm = () => {
             margin="normal"
             required
           />
-
-          {/* Contact Number */}
           <TextField
             fullWidth
             label="Contact Number"
@@ -108,8 +130,6 @@ const StudentRegistrationForm = () => {
             margin="normal"
             required
           />
-
-          {/* Gender */}
           <FormControl margin="normal">
             <FormLabel>Gender</FormLabel>
             <RadioGroup
@@ -126,12 +146,10 @@ const StudentRegistrationForm = () => {
               />
             </RadioGroup>
           </FormControl>
-
-          {/* Photo */}
           <Button
             variant="contained"
             component="label"
-            sx={{ marginTop: 2, marginBottom: 3, marginLeft: 15 }}
+            sx={{ marginTop: 2, marginBottom: 3 }}
           >
             Upload Photo
             <input
@@ -142,16 +160,15 @@ const StudentRegistrationForm = () => {
               onChange={handleChange}
             />
           </Button>
-
-          {/* Submit Button */}
           <Button
             type="submit"
             variant="contained"
             color="primary"
             fullWidth
             sx={{ padding: 1 }}
+            disabled={isLoading}
           >
-            Register
+            {isLoading ? "Submitting..." : "Register"}
           </Button>
         </form>
       </Paper>
