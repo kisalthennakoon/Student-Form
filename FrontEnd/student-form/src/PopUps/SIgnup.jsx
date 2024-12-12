@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SuccessPopup from "./Sucessful";
 import {
   Box,
   TextField,
@@ -24,6 +25,7 @@ const AuthPopup = ({ open, onClose }) => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [success, setSuccess] = useState(false); // State to show SuccessPopup
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,8 +65,8 @@ const AuthPopup = ({ open, onClose }) => {
             userName: formData.username,
             password: formData.password,
           });
-          alert("Signup successful!\n" + response.data.message);
           console.log("Signup Response:", response.data);
+          setSuccess(true); // Show SuccessPopup
         } catch (error) {
           console.error("Signup Error:", error);
           alert("Failed to sign up. Please try again.");
@@ -75,107 +77,104 @@ const AuthPopup = ({ open, onClose }) => {
             userName: formData.username,
             password: formData.password,
           });
-          alert("Signin successful!\n" + response.data.message);
           console.log("Signin Response:", response.data);
+          setSuccess(true); // Show SuccessPopup
         } catch (error) {
           console.error("Signin Error:", error);
           alert("Failed to sign in. Please try again.");
         }
       }
-      console.log("Form Data:", formData);
-      onClose();
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle align="center">{isSignUp ? "Sign Up" : "Sign In"}</DialogTitle>
-      <DialogContent>
-        <form onSubmit={handleSubmit}>
-          {/* Username Field */}
-          <TextField
-            fullWidth
-            label="Username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            margin="normal"
-            error={!!errors.username}
-            helperText={errors.username}
-            required
-          />
-          {/* Password Field */}
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            value={formData.password}
-            onChange={handleChange}
-            margin="normal"
-            error={!!errors.password}
-            helperText={errors.password}
-            required
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={togglePasswordVisibility} edge="end">
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          {/* Confirm Password Field - Only for Sign Up */}
-          {isSignUp && (
+    <div>
+      {success && <SuccessPopup onClose={() => setSuccess(false)} />} {/* Show SuccessPopup */}
+      <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+        <DialogTitle align="center">{isSignUp ? "Sign Up" : "Sign In"}</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Confirm Password"
-              name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-              value={formData.confirmPassword}
+              label="Username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               margin="normal"
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword}
+              error={!!errors.username}
+              helperText={errors.username}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password}
               required
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={toggleConfirmPasswordVisibility} edge="end">
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                    <IconButton onClick={togglePasswordVisibility} edge="end">
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
             />
-          )}
-          {/* Submit Button */}
-          <Box display="flex" justifyContent="center" marginTop={3}>
-            <Button type="submit" variant="contained" color="primary">
-              {isSignUp ? "Sign Up" : "Sign In"}
+            {isSignUp && (
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                margin="normal"
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
+                required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={toggleConfirmPasswordVisibility} edge="end">
+                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+            <Box display="flex" justifyContent="center" marginTop={3}>
+              <Button type="submit" variant="contained" color="primary">
+                {isSignUp ? "Sign Up" : "Sign In"}
+              </Button>
+            </Box>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Box display="flex" justifyContent="space-between" width="100%" paddingX={2}>
+            <Typography variant="body2">
+              {isSignUp ? "Already have an account?" : "Don't have an account?"}
+              <Button
+                variant="text"
+                color="primary"
+                onClick={() => setIsSignUp(!isSignUp)}
+              >
+                {isSignUp ? "Sign In" : "Sign Up"}
+              </Button>
+            </Typography>
+            <Button onClick={onClose} color="secondary">
+              Cancel
             </Button>
           </Box>
-        </form>
-      </DialogContent>
-      <DialogActions>
-        <Box display="flex" justifyContent="space-between" width="100%" paddingX={2}>
-          <Typography variant="body2">
-            {isSignUp ? "Already have an account?" : "Don't have an account?"}
-            <Button
-              variant="text"
-              color="primary"
-              onClick={() => setIsSignUp(!isSignUp)}
-            >
-              {isSignUp ? "Sign In" : "Sign Up"}
-            </Button>
-          </Typography>
-          <Button onClick={onClose} color="secondary">
-            Cancel
-          </Button>
-        </Box>
-      </DialogActions>
-    </Dialog>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 
