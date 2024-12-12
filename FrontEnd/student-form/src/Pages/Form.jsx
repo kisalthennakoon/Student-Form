@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const StudentRegistrationForm = () => {
+const StudentRegistrationForm = ({ id }) => {
   const [formData, setFormData] = useState({
     name: "",
     studentId: "",
@@ -45,7 +45,7 @@ const StudentRegistrationForm = () => {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `http://localhost:8080/api/v1/acc/${id}/assignForm`, // Corrected URL
+        `http://localhost:8080/api/v1/acc/${id}/assignForm`,
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
