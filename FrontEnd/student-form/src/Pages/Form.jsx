@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import exportedObjectId from "../PopUps/SIgnup.jsx";
+
 import {
   Box,
   TextField,
@@ -44,8 +46,13 @@ const StudentRegistrationForm = ({ id }) => {
 
     try {
       setIsLoading(true);
+      console.log(exportedObjectId);
+      console.log("HI");
+      console.log(oId);
+      console.log("bye");
       const response = await axios.put(
-        `http://localhost:8080/api/v1/acc/${id}/assignForm`,
+        "http://localhost:8080/api/v1/acc/${id}/assignForm",
+        console.log(exportedObjectId),
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },

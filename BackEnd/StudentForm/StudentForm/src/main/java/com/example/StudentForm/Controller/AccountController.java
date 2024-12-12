@@ -71,7 +71,7 @@ public class AccountController {
         }
 
         // String token = jwtUtil.generateToken(account.getUserName());
-        return (ResponseEntity<?>) ResponseEntity.ok().body("Successfull");
+        return (ResponseEntity<?>) ResponseEntity.ok(account);
     }
 
     // Get all acc by id
