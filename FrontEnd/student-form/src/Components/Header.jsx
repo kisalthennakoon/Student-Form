@@ -1,6 +1,8 @@
 // Import necessary libraries
 import { FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
 import { useState } from 'react'; // Import useState hook
+import logo from "../assets/logo.png"; // Import logo image
+import Box from '@mui/material/Box'; // Import Box component from Material-UI
 
 const Header = () => {
     const [isSignUp, setIsSignUp] = useState(false); // Moved useState inside the component
@@ -14,9 +16,16 @@ const Header = () => {
     return (
         <div>
             <nav className="navbar">
-                <div className="navbar-logo">
+
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box className="logo" sx={{ marginRight: 1, marginTop : 5}}>
+                    <img src={logo} alt="Logo" style={{ height: '50px' }} />
+                </Box>
+                <Box className="navbar-logo">
                     <h1>Technology Institute</h1>
-                </div>
+                </Box>
+            </Box>
+
                 <ul className="navbar-links">
                     <li><a href="home">Home</a></li>
                     <li><a href="register">Student Register</a></li>
