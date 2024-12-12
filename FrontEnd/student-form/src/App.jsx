@@ -6,6 +6,7 @@ import Home from './Pages/Home.jsx';
 import Form from './Pages/Form.jsx';
 import DetailsEdit from './Pages/DetailsEdit.jsx';
 import AuthPopup from './PopUps/SIgnup.jsx';
+import EditDetails from './Pages/DetailsEdit.jsx';
 
 import './App.css';
 
@@ -25,6 +26,7 @@ const App = () => {
             {!isAuthPopupOpen && (
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/home1" element={<EditDetails userId={userId}/>} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/register" element={<Form userId={userId} />} />
                     <Route path="/sign-in" element={<DetailsEdit userId={userId} />} />
