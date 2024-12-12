@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SucessPopup from "./Sucessful";
+import SucessPopup from "../PopUps/Sucessful";
 import {
   Box,
   TextField,
@@ -18,15 +18,16 @@ import axios from "axios";
 const AuthPopup = ({ open, onClose, onSignIn }) => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Sign In
   const [formData, setFormData] = useState({
-    id: "",
     username: "",
     password: "",
     confirmPassword: "",
   });
+  const [userData, setUserData] = useState();
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
+  const [oId, setOId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,34 +65,39 @@ const AuthPopup = ({ open, onClose, onSignIn }) => {
         try {
           const response = await axios.post(
             "http://localhost:8080/api/v1/acc/saveAcc",
-            {
-              id: formData.id,
+            { 
               userName: formData.username,
               password: formData.password,
             }
           );
           alert("Signup successful!\n" + response.data.message);
+          setUserData(response.data.id);
+          localStorage.setItem("userId", response.data.id);
+          console.log("User id:", response.data.id);
           setSuccessPopupOpen(true);
-          console.log("ID:", response.data.id);
+          // console.log("ID:", response.data.id);
           console.log("Signup Response:", response.data);
+          
         } catch (error) {
           console.error("Signup Error:", error);
           alert("Failed to sign up. Please try again.");
         }
       } else {
         try {
-          console.log(formData);
+          const userId = localStorage.getItem("userId");
+          console.log("Registered User ID:", userId);
+          console.log("FORM DATA: ", userData);
           const response = await axios.post(
             "http://localhost:8080/api/v1/acc/login",
             {
-              id : formData.id,
+                
               userName: formData.username,
               password: formData.password,
             }
           );
-          const { id } = response.data;
-          console.log("ID:", id);
-          onSignIn(id);
+          // const setOId = response.data.id;
+          // console.log("ID:", oId);
+          // onSignIn(id);
           alert("Signin successful!\n" + response.data.message);
           console.log("Signin Response:", response.data);
           setSuccessPopupOpen(true);

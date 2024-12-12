@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import exportedObjectId from "../PopUps/SIgnup.jsx";
 
 import {
   Box,
@@ -17,7 +16,7 @@ import axios from "axios";
 
 const StudentRegistrationForm = ({ id }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    studentName: "",
     studentId: "",
     age: "",
     address: "",
@@ -46,19 +45,19 @@ const StudentRegistrationForm = ({ id }) => {
 
     try {
       setIsLoading(true);
-      console.log(exportedObjectId);
-      console.log("HI");
-      console.log(oId);
-      console.log("bye");
+      const userId = localStorage.getItem("userId");
+      console.log("USERID", userId);
+      console.log("FormData to send:", formDataToSend);
+      console.log("API URL:", `http://localhost:8080/api/v1/acc/${userId}/assignForm`);
+
       const response = await axios.put(
-        "http://localhost:8080/api/v1/acc/${id}/assignForm",
-        console.log(exportedObjectId),
+        `http://localhost:8080/api/v1/acc/${userId}/assignForm`,
         formDataToSend,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "application/json" },
         }
       );
-
+      console.log("Response:", formDataToSend.data);
       alert("Form submitted successfully! 🎉");
       console.log("Response:", response.data);
     } catch (error) {

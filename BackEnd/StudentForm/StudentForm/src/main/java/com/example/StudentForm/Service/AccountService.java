@@ -7,14 +7,18 @@ import com.example.StudentForm.Model.Account;
 
 import com.example.StudentForm.Repository.AccountRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service
+@Slf4j
 public class AccountService {
 
     @Autowired
     private AccountRepo repo;
 
     public Account saveOrUpdate(Account acc) {
+        log.info("user data {}", acc);
         return repo.save(acc); // Save method handles both insert and update
     }
 

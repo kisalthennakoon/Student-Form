@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+//import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -97,75 +98,75 @@ public class AccountController {
 
     // Assigning the form
 
-    /*
-     * @PutMapping(value = "/{studentId}/assignForm")
-     * public Account assignForm(@PathVariable String studentId, @RequestBody Form
-     * form) {
-     * // Save the StudentAcc document first
-     * Form savedForm = formService.saveOrUpdate(form);
-     * 
-     * // Retrieve the Student document
-     * Account studentAcc = accService.getAccByID(studentId);
-     * if (studentAcc == null) {
-     * throw new RuntimeException("Student not found with ID: " + studentId); }
-     * 
-     * // Link the account to the student
-     * studentAcc.setForm(savedForm);
-     * // Save the updated student
-     * return accService.saveOrUpdate(studentAcc);
-     * }
-     */
-
-    // -----------------------------------------------------------------------------------------------------------
-    @PutMapping(value = "/{id}/assignForm", consumes = "multipart/form-data")
-    public ResponseEntity<Account> assignForm(
-            @PathVariable String id,
-            @RequestParam("name") String studentName,
-            @RequestParam("address") String address,
-            @RequestParam("age") int age,
-            @RequestParam("mobile") String contactNumber,
-            @RequestParam("gender") String gender,
-            @RequestParam("photo") MultipartFile profilePhoto) {
-
-        // Create a new Form object and populate fields
-        Form form = new Form();
-        form.setStudentName(studentName);
-        form.setAge(age);
-        form.setAddress(address);
-        form.setContactNumber(contactNumber);
-        form.setGender(gender);
-
-        // Handle the profile photo file
-
-        try {
-            if (!profilePhoto.isEmpty()) {
-                // Validate file type
-                String contentType = profilePhoto.getContentType();
-                if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
-                    return ResponseEntity.badRequest().body(null); // Invalid file type
-                }
-
-                form.setProfilePhoto(profilePhoto.getBytes()); // Save photo as a byte array
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to process file: " + e.getMessage(), e);
-        }
-
-        // Save the Form document
+    @PutMapping(value = "/{id}/assignForm")
+    public ResponseEntity<Account> assignForm(@PathVariable String id, @RequestBody Form form) {
+        // Save the StudentAcc document first
         Form savedForm = formService.saveOrUpdate(form);
 
-        // Retrieve and update the associated Account document
+        // Retrieve the Student document
         Account studentAcc = accService.getAccByID(id);
         if (studentAcc == null) {
-            return ResponseEntity.status(404).body(null); // Account not found
+            return ResponseEntity.status(404).body(null); // Student not found
+            //throw new RuntimeException("Student not found with ID: " + id);
         }
 
+        // Link the account to the student
         studentAcc.setForm(savedForm);
-
-        // Save and return the updated Account
-        Account updatedAccount = accService.saveOrUpdate(studentAcc);
-        return ResponseEntity.ok(updatedAccount);
+        // Save the updated student
+        return ResponseEntity.ok(accService.saveOrUpdate(studentAcc));
     }
+
+    // -----------------------------------------------------------------------------------------------------------
+
+    // @PutMapping(value = "/{id}/assignForm", consumes = "multipart/form-data")
+    // public ResponseEntity<Account> assignForm(
+    // @PathVariable String id,
+    // @RequestParam("name") String studentName,
+    // @RequestParam("address") String address,
+    // @RequestParam("age") int age,
+    // @RequestParam("mobile") String contactNumber,
+    // @RequestParam("gender") String gender,
+    // @RequestParam("photo") MultipartFile profilePhoto) {
+
+    // // Create a new Form object and populate fields
+    // Form form = new Form();
+    // form.setStudentName(studentName);
+    // form.setAge(age);
+    // form.setAddress(address);
+    // form.setContactNumber(contactNumber);
+    // form.setGender(gender);
+
+    // // Handle the profile photo file
+
+    // try {
+    // if (!profilePhoto.isEmpty()) {
+    // // Validate file type
+    // String contentType = profilePhoto.getContentType();
+    // if (!contentType.equals("image/jpeg") && !contentType.equals("image/png")) {
+    // return ResponseEntity.badRequest().body(null); // Invalid file type
+    // }
+
+    // form.setProfilePhoto(profilePhoto.getBytes()); // Save photo as a byte array
+    // }
+    // } catch (IOException e) {
+    // throw new RuntimeException("Failed to process file: " + e.getMessage(), e);
+    // }
+
+    // // Save the Form document
+    // Form savedForm = formService.saveOrUpdate(form);
+
+    // // Retrieve and update the associated Account document
+    // Account studentAcc = accService.getAccByID(id);
+    // if (studentAcc == null) {
+    // return ResponseEntity.status(404).body(null); // Account not found
+    // }
+
+    // studentAcc.setForm(savedForm);
+
+    // // Save and return the updated Account
+    // Account updatedAccount = accService.saveOrUpdate(studentAcc);
+    // return ResponseEntity.ok(updatedAccount);
+    // }
 
     // -----------------------------------------------------------------------------------------------------------
 
