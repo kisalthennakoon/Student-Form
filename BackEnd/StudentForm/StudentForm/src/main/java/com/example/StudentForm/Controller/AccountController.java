@@ -62,17 +62,28 @@ public class AccountController {
     // return ResponseEntity.ok(new LoginResponse(token));
     // }
 
+    // @PostMapping("/login")
+    // public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
+    //     Account account = accService.findByUsername(loginRequest.getUserName());
+
+    //     if (account == null ||
+    //             !account.getPassword().equals(loginRequest.getPassword())) {
+    //         return ResponseEntity.status(401).body("Invalid username or password");
+    //     }
+
+    //     // String token = jwtUtil.generateToken(account.getUserName());
+    //     return (ResponseEntity<?>) ResponseEntity.ok(account);
+    // }
+
     @PostMapping("/login")
     public ResponseEntity<?> validateLogin(@RequestBody Account loginRequest) {
+        // Retrieve account by username
         Account account = accService.findByUsername(loginRequest.getUserName());
-
-        if (account == null ||
-                !account.getPassword().equals(loginRequest.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid username or password");
+        if (account != null || accService.validate(loginRequest.getUserName(), loginRequest.getPassword())) {
+            // return ResponseEntity.ok("Login successful!");
+            return (ResponseEntity<?>) ResponseEntity.ok(account);
         }
-
-        // String token = jwtUtil.generateToken(account.getUserName());
-        return (ResponseEntity<?>) ResponseEntity.ok(account);
+        return ResponseEntity.status(401).body("Invalid username or password.");
     }
 
     // Get all acc by id
