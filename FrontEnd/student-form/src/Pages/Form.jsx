@@ -17,12 +17,11 @@ import axios from "axios";
 const StudentRegistrationForm = ({ id }) => {
   const [formData, setFormData] = useState({
     studentName: "",
-    studentId: "",
     age: "",
     address: "",
     contactNo: "",
     gender: "",
-    photo: null,
+    profilePhoto: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -89,21 +88,13 @@ const StudentRegistrationForm = ({ id }) => {
           <TextField
             fullWidth
             label="Name"
-            name="name"
+            name="studentName"
             value={formData.name}
             onChange={handleChange}
             margin="normal"
             required
           />
           <Box display="flex" gap={2} marginBottom={2}>
-            <TextField
-              fullWidth
-              label="Student ID"
-              name="studentId"
-              value={formData.studentId}
-              onChange={handleChange}
-              required
-            />
             <TextField
               fullWidth
               label="Age"
@@ -160,7 +151,7 @@ const StudentRegistrationForm = ({ id }) => {
             Upload Photo
             <input
               type="file"
-              name="photo"
+              name="profilePhoto"
               accept="image/*"
               hidden
               onChange={handleChange}

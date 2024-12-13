@@ -220,7 +220,7 @@ public class AccountController {
         response.put("studentName", form.getStudentName());
         response.put("address", form.getAddress());
         response.put("age", form.getAge());
-        response.put("contactNumber", form.getContactNumber());
+        response.put("contactNo", form.getContactNumber());
         response.put("gender", form.getGender());
 
         // Check if the photo exists and encode it to Base64 if it does
