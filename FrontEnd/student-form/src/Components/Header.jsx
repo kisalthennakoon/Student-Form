@@ -3,6 +3,7 @@ import { FaSignInAlt, FaUserPlus } from 'react-icons/fa'; // Import icons
 import { useState } from 'react'; // Import useState hook
 import logo from "../assets/logo.webp"; // Import logo
 import { Box } from '@mui/material';
+   import { Link } from "react-router-dom";
 
 const Header = () => {
     const [isSignUp, setIsSignUp] = useState(false); // Moved useState inside the component
@@ -32,18 +33,15 @@ const Header = () => {
             <ul className="navbar-links">
                 <li><a href="/home">Home</a></li>
                 <li><a href="/register">Student Register</a></li>
+             
+
                 <li>
-                    <a
-                        href="/sign-in"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleOpenPopup(false);
-                        }}
-                    >
-                        <FaSignInAlt /> Sign In
-                    </a>
+                    <Link to="/sign-in" onClick={() => handleOpenPopup(false)}>
+                        <FaSignInAlt /> Details Edit
+                    </Link>
                 </li>
-                <li>
+
+                {/* <li>
                     <a
                         href="/sign-up"
                         onClick={(e) => {
@@ -53,7 +51,7 @@ const Header = () => {
                     >
                         <FaUserPlus /> Sign Up
                     </a>
-                </li>
+                </li> */}
             </ul>
         </nav>
     
