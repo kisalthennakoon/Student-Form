@@ -20,7 +20,7 @@ import com.example.StudentForm.Service.FormService;
 //import com.example.StudentForm.JwT.LoginResponse;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5178")
 @RequestMapping("api/v1/acc")
 
 public class AccountController {
