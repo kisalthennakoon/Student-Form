@@ -211,8 +211,8 @@ const StudentRegistrationForm = ({ id }) => {
     address: "",
     contactNumber: "",
     gender: "",
-    studentId: ""
-    // profilePhoto: null,
+    studentId: "",
+    photo: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -244,7 +244,7 @@ const StudentRegistrationForm = ({ id }) => {
         `http://localhost:8080/api/v1/acc/${userId}/assignForm`,
         formDataToSend,
         {
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
       console.log("Response:", formDataToSend.data);
@@ -338,12 +338,13 @@ const StudentRegistrationForm = ({ id }) => {
               <FormControlLabel value="Male" control={<Radio />} label="Male" />
               <FormControlLabel
                 value="Female"
+
                 control={<Radio />}
                 label="Female"
               />
             </RadioGroup>
           </FormControl>
-          {/* <Button
+          <Button
             variant="contained"
             component="label"
             sx={{ marginTop: 2, marginBottom: 3 }}
@@ -351,12 +352,12 @@ const StudentRegistrationForm = ({ id }) => {
             Upload Photo
             <input
               type="file"
-              name="profilePhoto"
+              name="photo"
               accept="image/*"
               hidden
               onChange={handleChange}
             />
-          </Button> */}
+          </Button>
           <Button
             type="submit"
             variant="contained"
