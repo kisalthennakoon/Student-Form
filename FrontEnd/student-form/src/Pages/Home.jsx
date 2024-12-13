@@ -10,7 +10,7 @@ const Home = () => {
     setIsSignUp(isSignUpMode);
     setAuthPopupOpen(true);
   };
-
+  
   return (
     <>
       <div style={styles.container}>

@@ -98,7 +98,7 @@ public class AccountController {
 
     // Assigning the form
 
-    @PutMapping(value = "/{id}/assignForm")
+    @PutMapping(value = "/{id}/assignForm", consumes = "application/json")
     public ResponseEntity<Account> assignForm(@PathVariable String id, @RequestBody Form form) {
         // Save the StudentAcc document first
         Form savedForm = formService.saveOrUpdate(form);

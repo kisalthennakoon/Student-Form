@@ -5,7 +5,7 @@ import Footer from './Components/Footer.jsx';
 import Home from './Pages/Home.jsx';
 import Form from './Pages/Form.jsx';
 import DetailsEdit from './Pages/DetailsEdit.jsx';
-import AuthPopup from './PopUps/SIgnup.jsx';
+import AuthPopup from './PopUps/Signup.jsx';
 
 import './App.css';
 
