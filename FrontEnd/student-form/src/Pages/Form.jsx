@@ -1,4 +1,195 @@
+// import React, { useState } from "react";
+
+// import {
+//   Box,
+//   TextField,
+//   Typography,
+//   Button,
+//   Radio,
+//   RadioGroup,
+//   FormControlLabel,
+//   FormControl,
+//   FormLabel,
+//   Paper,
+// } from "@mui/material";
+// import axios from "axios";
+
+// const StudentRegistrationForm = ({ id }) => {
+//   const [formData, setFormData] = useState({
+//     studentName: "",
+//     studentId: "",
+//     age: "",
+//     address: "",
+//     contactNumber: "",
+//     gender: "",
+//   });
+
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   const handleChange = (e) => {
+//     const { name, value, type, files } = e.target;
+//     setFormData({
+//       ...formData,
+//       [name]: type === "file" ? files[0] : value,
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const formDataToSend = new FormData();
+//     for (const key in formData) {
+//       formDataToSend.append(key, formData[key]);
+//     }
+
+//     try {
+//       setIsLoading(true);
+//       const userId = localStorage.getItem("userId");
+//       console.log("USERID", userId);
+//       console.log("FormData to send:", formDataToSend);
+//       console.log("API URL:", `http://localhost:8080/api/v1/acc/${userId}/assignForm`);
+
+//       const response = await axios.put(
+//         `http://localhost:8080/api/v1/acc/${userId}/assignForm`,
+//         formDataToSend,
+//         {
+//           headers: { "Content-Type": "application/json" },
+//         }
+//       );
+//       console.log("Response:", formDataToSend.data);
+//       alert("Form submitted successfully! 🎉");
+//       console.log("Response:", response.data);
+//     } catch (error) {
+//       console.error("Error submitting form:", error.response || error.message);
+//       alert(
+//         `Failed to submit the form. ${
+//           error.response?.data?.message || "Please try again."
+//         }`
+//       );
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <Box
+//       display="flex"
+//       justifyContent="center"
+//       alignItems="center"
+//       minHeight="100vh"
+//       width="100vw"
+//       sx={{ backgroundColor: "#E4EDEC" }}
+//     >
+//       <Paper elevation={3} sx={{ padding: 4, width: "30%" }}>
+//         <Typography variant="h4" align="center" gutterBottom>
+//           Student Registration Form
+//         </Typography>
+//         <form onSubmit={handleSubmit}>
+//           <TextField
+//             fullWidth
+//             label="Name"
+//             name="StudentName"
+//             value={formData.name}
+//             onChange={handleChange}
+//             margin="normal"
+//             required
+//           />
+//           <Box display="flex" gap={2} marginBottom={2}>
+//             <TextField
+//               fullWidth
+//               label="Student ID"
+//               name="studentId"
+//               value={formData.studentId}
+//               onChange={handleChange}
+//               required
+//             />
+//             <TextField
+//               fullWidth
+//               label="Age"
+//               name="age"
+//               type="number"
+//               value={formData.age}
+//               onChange={handleChange}
+//               required
+//             />
+//           </Box>
+//           <TextField
+//             fullWidth
+//             label="Address"
+//             name="address"
+//             multiline
+//             rows={3}
+//             value={formData.address}
+//             onChange={handleChange}
+//             margin="normal"
+//             required
+//           />
+//           <TextField
+//             fullWidth
+//             label="Contact Number"
+//             name="contactNumber"
+//             type="tel"
+//             inputProps={{ pattern: "[0-9]{10}" }}
+//             value={formData.contactNo}
+//             onChange={handleChange}
+//             margin="normal"
+//             required
+//           />
+//           <FormControl margin="normal">
+//             <FormLabel>Gender</FormLabel>
+//             <RadioGroup
+//               row
+//               name="gender"
+//               value={formData.gender}
+//               onChange={handleChange}
+//             >
+//               <FormControlLabel value="Male" control={<Radio />} label="Male" />
+//               <FormControlLabel
+//                 value="Female"
+//                 control={<Radio />}
+//                 label="Female"
+//               />
+//             </RadioGroup>
+//           </FormControl>
+//           {/* <Button
+//             variant="contained"
+//             component="label"
+//             sx={{ marginTop: 2, marginBottom: 3 }}
+//           >
+//             Upload Photo
+//             <input
+//               type="file"
+//               name="photo"
+//               accept="image/*"
+//               hidden
+//               onChange={handleChange}
+//             />
+//           </Button> */}
+//           <Button
+//             type="submit"
+//             variant="contained"
+//             color="primary"
+//             fullWidth
+//             sx={{ padding: 1 }}
+//             disabled={isLoading}
+//           >
+//             {isLoading ? "Submitting..." : "Register"}
+//           </Button>
+//         </form>
+//       </Paper>
+//     </Box>
+//   );
+// };
+
+// export default StudentRegistrationForm;
+
+
+
+
+
+
 import React, { useState } from "react";
+
 import {
   Box,
   TextField,
@@ -11,17 +202,20 @@ import {
   FormLabel,
   Paper,
 } from "@mui/material";
+import axios from "axios";
 
-const StudentRegistrationForm = () => {
+const StudentRegistrationForm = ({ id }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    studentId: "",
+    studentName: "",
     age: "",
     address: "",
-    contactNo: "",
+    contactNumber: "",
     gender: "",
-    photo: null,
+    studentId: ""
+    // profilePhoto: null,
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -31,10 +225,41 @@ const StudentRegistrationForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Form submitted successfully! 🎉");
-    console.log("Form Data:", formData);
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    try {
+      setIsLoading(true);
+      const userId = localStorage.getItem("userId");
+      console.log("USERID", userId);
+      console.log("FormData to send:", formDataToSend);
+      console.log("API URL:", `http://localhost:8080/api/v1/acc/${userId}/assignForm`);
+
+      const response = await axios.put(
+        `http://localhost:8080/api/v1/acc/${userId}/assignForm`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("Response:", formDataToSend.data);
+      alert("Form submitted successfully! 🎉");
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error.response || error.message);
+      alert(
+        `Failed to submit the form. ${
+          error.response?.data?.message || "Please try again."
+        }`
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -42,8 +267,8 @@ const StudentRegistrationForm = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh" // Full screen height
-      width="100vw" // Full screen width
+      minHeight="100vh"
+      width="100vw"
       sx={{ backgroundColor: "#E4EDEC" }}
     >
       <Paper elevation={3} sx={{ padding: 4, width: "30%" }}>
@@ -51,27 +276,16 @@ const StudentRegistrationForm = () => {
           Student Registration Form
         </Typography>
         <form onSubmit={handleSubmit}>
-          {/* Name */}
           <TextField
             fullWidth
             label="Name"
-            name="name"
+            name="studentName"
             value={formData.name}
             onChange={handleChange}
             margin="normal"
             required
           />
-
-          {/* Student ID and Age */}
           <Box display="flex" gap={2} marginBottom={2}>
-            <TextField
-              fullWidth
-              label="Student ID"
-              name="studentId"
-              value={formData.studentId}
-              onChange={handleChange}
-              required
-            />
             <TextField
               fullWidth
               label="Age"
@@ -82,8 +296,6 @@ const StudentRegistrationForm = () => {
               required
             />
           </Box>
-
-          {/* Address */}
           <TextField
             fullWidth
             label="Address"
@@ -95,21 +307,26 @@ const StudentRegistrationForm = () => {
             margin="normal"
             required
           />
-
-          {/* Contact Number */}
           <TextField
             fullWidth
             label="Contact Number"
-            name="contactNo"
+            name="contactNumber"
             type="tel"
             inputProps={{ pattern: "[0-9]{10}" }}
-            value={formData.contactNo}
+            value={formData.contactNumber}
             onChange={handleChange}
             margin="normal"
             required
           />
-
-          {/* Gender */}
+          <TextField
+            fullWidth
+            label="Index"
+            name="studentId"
+            value={formData.studentId}
+            onChange={handleChange}
+            margin="normal"
+            required
+          />
           <FormControl margin="normal">
             <FormLabel>Gender</FormLabel>
             <RadioGroup
@@ -126,32 +343,29 @@ const StudentRegistrationForm = () => {
               />
             </RadioGroup>
           </FormControl>
-
-          {/* Photo */}
-          <Button
+          {/* <Button
             variant="contained"
             component="label"
-            sx={{ marginTop: 2, marginBottom: 3, marginLeft: 15 }}
+            sx={{ marginTop: 2, marginBottom: 3 }}
           >
             Upload Photo
             <input
               type="file"
-              name="photo"
+              name="profilePhoto"
               accept="image/*"
               hidden
               onChange={handleChange}
             />
-          </Button>
-
-          {/* Submit Button */}
+          </Button> */}
           <Button
             type="submit"
             variant="contained"
             color="primary"
             fullWidth
             sx={{ padding: 1 }}
+            disabled={isLoading}
           >
-            Register
+            {isLoading ? "Submitting..." : "Register"}
           </Button>
         </form>
       </Paper>

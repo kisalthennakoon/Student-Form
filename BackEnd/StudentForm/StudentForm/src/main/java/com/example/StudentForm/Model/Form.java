@@ -11,19 +11,29 @@ public class Form {
 
     private String studentName;
     private int age;
+    private String studentId;
     private String address;
-    private String contactNumber;
+    private String contactNo;
     private String gender;
-    private byte[] profilePhoto;
+    // private byte[] photo;
 
-    public Form(String id, String studentName, int age, String address, String contactNumber, String gender, byte[] profilePhoto){
+    public Form(String studentId,String id, String studentName, int age, String address, String contactNumber, String gender){
         this.id = id;
+        this.studentId = studentId;
         this.studentName = studentName;
         this.age = age;
         this.address = address;
-        this.contactNumber = contactNumber;
+        this.contactNo = contactNumber;
         this.gender = gender;
-        this.profilePhoto = profilePhoto;
+        // this.photo = profilePhoto;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public Form(){
@@ -63,11 +73,11 @@ public class Form {
     }
 
     public String getContactNumber(){
-        return contactNumber;
+        return contactNo;
     }
 
     public void setContactNumber(String contactNumber){
-        this.contactNumber = contactNumber;
+        this.contactNo = contactNumber;
     }
 
     public String getGender(){
@@ -78,12 +88,12 @@ public class Form {
         this.gender = gender;
     }
 
-    public byte[] getProfilePhoto(){
-        return profilePhoto;
-    }
+    // public byte[] getProfilePhoto(){
+    //     return photo;
+    // }
 
-    public void setProfilePhoto(byte[] profilePhoto){
-        this.profilePhoto = profilePhoto;
-    }
+    // public void setProfilePhoto(byte[] profilePhoto){
+    //     this.photo = profilePhoto;
+    // }
 
 }
